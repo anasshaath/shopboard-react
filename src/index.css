@@ -1,111 +1,236 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color: #1c1a1d;
+  background: #fcfaf7;
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+* {
   box-sizing: border-box;
 }
-
 body {
   margin: 0;
 }
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+button,
+input,
+select {
+  font: inherit;
 }
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+button {
+  cursor: pointer;
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
-p {
+a {
+  color: inherit;
+}
+.app-shell,
+.checkout {
+  max-width: 1120px;
+  margin: auto;
+  padding: 0 1.25rem 3rem;
+}
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ded8d0;
+  padding: 1.1rem 0;
+  gap: 1rem;
+}
+.brand {
+  font-size: 1.3rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.site-header nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.site-header nav a {
+  text-decoration: none;
+}
+.hero {
+  padding: 5rem 0 3rem;
+  max-width: 44rem;
+}
+.eyebrow {
+  color: #865a40;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+.hero h1,
+.checkout h1 {
+  font-size: clamp(2.8rem, 9vw, 5.5rem);
+  letter-spacing: -0.06em;
+  margin: 0.2rem 0;
+}
+.catalog,
+.signup {
+  padding: 2rem 0;
+}
+.catalog h2,
+.signup h2 {
+  font-size: 2rem;
+}
+.catalog-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.8rem;
+  padding: 1rem;
+  background: #eee7df;
+  border-radius: 0.8rem;
+}
+.catalog-controls label,
+.signup label,
+.checkout form label {
+  display: grid;
+  gap: 0.3rem;
+  font-weight: 600;
+}
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem !important;
+}
+.catalog-controls input,
+.catalog-controls select,
+.signup input,
+.checkout input {
+  width: 100%;
+  border: 1px solid #bdb4ab;
+  border-radius: 0.35rem;
+  padding: 0.55rem;
+  background: white;
+}
+.status,
+.summary {
+  padding: 1rem 0;
+}
+.error {
+  color: #8b1e1e;
+}
+.product-grid,
+.cart-panel ul {
+  display: grid;
+  list-style: none;
+  padding: 0;
+  gap: 1rem;
+}
+.product-grid {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+.product-card {
+  min-height: 220px;
+  padding: 1.25rem;
+  border: 1px solid #ded8d0;
+  border-radius: 0.8rem;
+  background: white;
+}
+.product-card h3 {
+  font-size: 1.3rem;
+}
+.price {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.product-card button,
+.cart-actions button,
+.signup button,
+.checkout button,
+.site-header button {
+  border: 0;
+  border-radius: 0.35rem;
+  padding: 0.55rem 0.8rem;
+  background: #2e2a27;
+  color: white;
+}
+.cart-panel {
+  position: fixed;
+  z-index: 2;
+  inset: 1rem 1rem 1rem auto;
+  width: min(30rem, calc(100vw - 2rem));
+  overflow: auto;
+  background: #fffdf9;
+  border: 1px solid #cfc4b9;
+  box-shadow: 0 12px 40px #0003;
+  padding: 1.25rem;
+}
+.panel-heading,
+.cart-actions,
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+}
+.cart-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 0.7rem;
+  align-items: center;
+  border-bottom: 1px solid #e7e0d9;
+  padding-bottom: 0.7rem;
+}
+.cart-item h3 {
   margin: 0;
 }
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.quantity-controls {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
 }
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.quantity-controls button {
+  min-width: 2rem;
+}
+.signup {
+  margin-top: 3rem;
+  padding: 2rem;
+  border-radius: 0.8rem;
+  background: #34312d;
+  color: white;
+}
+.signup form {
+  display: grid;
+  gap: 0.8rem;
+  max-width: 30rem;
+}
+.signup button {
+  background: #e1b78e;
+  color: #241d17;
+}
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.65fr);
+  gap: 2rem;
+}
+.checkout form {
+  display: grid;
+  gap: 0.8rem;
+}
+.checkout aside {
+  padding: 1rem;
+  height: fit-content;
+  background: #eee7df;
+  border-radius: 0.7rem;
+}
+.field-error {
+  color: #9e2020;
+  font-size: 0.85rem;
+}
+@media (max-width: 640px) {
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .cart-item {
+    grid-template-columns: 1fr auto;
+  }
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
 }
