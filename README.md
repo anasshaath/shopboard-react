@@ -19,7 +19,7 @@ npm run dev
 | `npm run build`        | Type-check and build the production app.      |
 | `npm run preview`      | Preview the production build.                 |
 
-Husky runs lint-staged before commits. No remote or commit is created by this project setup.
+Husky runs lint-staged before commits.
 
 ## Functionality
 
@@ -60,4 +60,4 @@ src/
   App.tsx                 # React composition and UI state
 ```
 
-The copied Day 3 modules retain their original contents. Only the React layer is new. The five-bug browser debug lab and personal-observation rules remain intentionally pending.
+The copied Day 3 modules retain their original contents. The React layer provides the UI. See debug-lab-log.md for the five manually observed lab bugs and their proposed fixes, and CLAUDE.md for project rules derived from reviewed implementation mistakes.
