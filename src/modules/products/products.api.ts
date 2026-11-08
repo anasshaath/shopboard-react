@@ -1,4 +1,4 @@
-import { fetchJson } from '../../shared/api/client.ts'
+import { ApiError, fetchJson } from '../../shared/api/client.ts'
 import type { Category, Product } from './products.types.ts'
 
 export interface ApiProduct {
@@ -79,7 +79,11 @@ export function toProduct(apiProduct: ApiProduct): Product {
   }
 }
 
-export async function getProducts(): Promise<Product[]> {
-  const response = await fetchJson('/api/products', decodeProductsResponse)
+export async function getProducts(signal?: AbortSignal): Promise<Product[]> {
+  const response = await fetchJson('/api/products', decodeProductsResponse, signal)
   return response.items.map(toProduct)
+}
+
+export async function getProduct(id: number, signal?: AbortSignal): Promise<Product | null> {
+  try { return toProduct(await fetchJson(`/api/products/${id}`, decodeProduct, signal)) } catch (error) { if (error instanceof ApiError && error.status === 404) return null; throw error }
 }

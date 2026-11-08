@@ -1,3 +1,5 @@
+@import 'tailwindcss';
+
 :root {
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   color: #1c1a1d;
@@ -221,6 +223,54 @@ a {
 .field-error {
   color: #9e2020;
   font-size: 0.85rem;
+}
+.button,
+.button-link {
+  border: 0;
+  border-radius: 0.35rem;
+  padding: 0.55rem 0.8rem;
+  background: #2e2a27;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+}
+.button.outline {
+  background: white;
+  color: #2e2a27;
+  border: 1px solid #2e2a27;
+}
+.field {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.8rem 0;
+}
+.field-label {
+  font-weight: 600;
+}
+.input,
+.field input {
+  width: 100%;
+  border: 1px solid #bdb4ab;
+  border-radius: 0.35rem;
+  padding: 0.55rem;
+}
+.cart-list {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+}
+.cart-list li {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid #ded8d0;
+}
+.product-detail {
+  max-width: 40rem;
+  padding: 2rem 0;
 }
 @media (max-width: 640px) {
   .site-header {

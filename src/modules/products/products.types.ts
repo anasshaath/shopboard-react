@@ -7,15 +7,3 @@ export interface Product {
   category: Category
   inStock: boolean
 }
-
-export interface ProductView {
-  search: string
-  category: Category | 'all'
-  under30: boolean
-  sortDirection: 'asc' | 'desc' | null
-}
-
-export type LoadState =
-  | { status: 'loading' }
-  | { status: 'error'; message: string }
-  | { status: 'success'; products: Product[] }

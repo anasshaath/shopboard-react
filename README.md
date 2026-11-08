@@ -1,63 +1,43 @@
 # ShopBoard React
 
-ShopBoard is a TypeScript React demo storefront. It loads a validated catalog from the ShopBoard API, lets customers filter it, and keeps a demo cart and orders in browser storage.
+Task 5 React storefront using TypeScript, Vite, React Router, TanStack Query, and a Context cart.
 
-## Setup and commands
+## Commands
 
-```bash
-npm install
-npm run dev
-```
+`npm run dev`, `npm run format:check`, `npm run typecheck`, `npm run lint`, and `npm run build`. The pre-commit hook runs all four checks.
 
-| Command                | Purpose                                       |
-| ---------------------- | --------------------------------------------- |
-| `npm run dev`          | Start Vite locally.                           |
-| `npm run format`       | Format project files with Prettier.           |
-| `npm run format:check` | Check formatting without editing files.       |
-| `npm run typecheck`    | Type-check the application.                   |
-| `npm run lint`         | Run Oxlint with warnings treated as failures. |
-| `npm run build`        | Type-check and build the production app.      |
-| `npm run preview`      | Preview the production build.                 |
+## Routes
 
-Husky runs lint-staged before commits.
+| URL             | Page                         |
+| --------------- | ---------------------------- |
+| `/`             | Home storefront introduction |
+| `/products`     | Filterable catalog           |
+| `/products/:id` | API-backed product detail    |
+| `/cart`         | Shared persistent cart       |
+| `/checkout`     | Demo checkout                |
+| `*`             | Separate 404 page            |
 
-## Functionality
+Every page is lazy-loaded. Layout remains mounted with navigation and the cart count while a page loads or its query fails.
 
-- Typed API decoding and mapping for the product catalog.
-- Search, category selection, Under $30 filter, price sorting, and reset.
-- Loading, retryable failure, empty-catalog, and no-match states.
-- Persistent cart quantities, removal, clear, totals, and unavailable-item protection during loading, empty, and error catalog states.
-- Demo sign-up confirmation and demo checkout validation/order confirmation.
+## Data and state
 
-## Component tree and props
+`CartProvider` owns the small shared `{ id, qty }` cart and explicit add, remove, quantity-change, and clear actions. It initializes from and persists to `localStorage`; totals, counts, categories, and filtered products are calculated in render. Product list and detail requests use TanStack Query Suspense hooks and pass the query signal through the shared API client. This lets TanStack Query cancel a request when it chooses to cancel that query; it does not promise cancellation for every navigation. Focused query boundaries provide retry controls without replacing the layout.
 
-```text
-App
-├─ Header { itemCount, onOpenCart }
-├─ CatalogControls { categories, onViewChange, view }
-├─ CatalogState { loadState, onRetry, visibleCount }
-├─ ProductGrid { products, onAddToCart }
-│  └─ ProductCard { product, onAddToCart }
-├─ SignupForm { message, onSuccess }
-├─ CartPanel { cart, catalogAvailable, isOpen, itemCount, onCheckout,
-│             onClear, onClose, onQuantityChange, onRemove, total,
-│             unavailableItems }
-│  └─ CartItem { item, onQuantityChange, onRemove }
-└─ Checkout { cart, confirmation, errors, message, onBack, onPlaceOrder }
-   └─ CheckoutField { error, label, name, onChange, type, value }
-```
+Set `VITE_API_BASE_URL` before starting Vite. Leave it unset for normal API use. For scenario checks use `https://shopboard-api.vercel.app/delay/3000`, `https://shopboard-api.vercel.app/fail/500`, or `https://shopboard-api.vercel.app/empty`; the client appends `/api/products` after that prefix.
 
-Each reusable component has its own file and an explicit Props interface. `App` owns React-only UI state: catalog load state, the current filter view, cart refresh signal, cart/checkout visibility, checkout errors/message, order confirmation, and sign-up confirmation. `Checkout` owns its customer form fields until it passes them to `App` when the demo order is submitted. The copied `cart.state.ts` owns the persisted cart and view storage; its values are read by `App`, then passed to child components as props. `CatalogState`, the product grid, cart total/count, and checkout total are derived during render rather than stored separately.
+## Checkout
 
-## Project structure
+Checkout is a local demonstration: no payment is collected and no order is sent to a server. One Zod schema validates name, email, and address through react-hook-form Controller fields. The cart is cleared only after successful local submission. Empty, unresolved, or out-of-stock carts cannot check out.
+
+## Component tree
 
 ```text
-src/
-  components/             # Presentational and form components
-  modules/cart/           # Copied persistent cart contracts/state
-  modules/products/       # Copied types, API validation, and pure logic
-  shared/api/client.ts    # Shared fetch wrapper
-  App.tsx                 # React composition and UI state
+App → QueryClientProvider → CartProvider → BrowserRouter
+└─ Layout (Header, Outlet)
+   ├─ HomePage
+   ├─ ProductsPage → ProductCards
+   ├─ ProductPage
+   ├─ CartPage
+   ├─ CheckoutPage → Field / Input / Button
+   └─ NotFoundPage
 ```
-
-The copied Day 3 modules retain their original contents. The React layer provides the UI. See debug-lab-log.md for the five manually observed lab bugs and their proposed fixes, and CLAUDE.md for project rules derived from reviewed implementation mistakes.
